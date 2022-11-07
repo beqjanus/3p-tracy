@@ -1,11 +1,16 @@
-name: Build 3p package
-on: push
+name: Build Tracy binaries and 3p-package
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 env:
   AUTOBUILD_VARIABLES_FILE: ${{github.workspace}}/build-variables/variables
   EXTRA_ARGS: -DFMODSTUDIO=Off -DUSE_KDU=Off
 jobs:
-  steps:
+  build-tracy:
     runs-on: windows-2022
+    steps:
     - name: Get the code
       uses: actions/checkout@v3
       with:
