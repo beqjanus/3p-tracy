@@ -20,29 +20,30 @@ jobs:
     - name: Integrate vcpkg
       run: vcpkg integrate install
     - name: Profiler GUI Debug
-      run: msbuild tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Debug /property:Platform=x64
     - name: Profiler GUI Release
-      run: msbuild tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Update utility Debug
-      run: msbuild tracy\update\build\win32\update.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\update\build\win32\update.vcxproj /property:Configuration=Debug /property:Platform=x64
     - name: Update utility Release
-      run: msbuild tracy\update\build\win32\update.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\update\build\win32\update.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Capture utility Debug
-      run: msbuild tracy\capture\build\win32\capture.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\capture\build\win32\capture.vcxproj /property:Configuration=Debug /property:Platform=x64
     - name: Capture utility Release
-      run: msbuild tracy\capture\build\win32\capture.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\capture\build\win32\capture.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Csvexport utility Debug
-      run: msbuild tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Debug /property:Platform=x64
     - name: Csvexport utility Release
-      run: msbuild tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Import-chrome utility Debug
-      run: msbuild tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Debug /property:Platform=x64
     - name: Import-chrome utility Release
-      run: msbuild tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Library
-      run: msbuild tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Package binaries
       run: |
+        cd ${{github.workspace}}\tracy
         mkdir bin
         mkdir bin\dev
         copy profiler\build\win32\x64\Release\Tracy.exe bin
