@@ -54,9 +54,6 @@ jobs:
         copy library\win32\x64\Release\TracyProfiler.dll bin\dev
         copy library\win32\x64\Release\TracyProfiler.lib bin\dev
         7z a Tracy.7z bin
-    - uses: actions/upload-artifact@v2
-      with:
-        path: tracy\Tracy.7z
     - name: install autobuild
       run: pip3 install git+https://github.com/Nicky-D/autobuild@main_nd
 
@@ -74,5 +71,8 @@ jobs:
       shell: bash
     - uses: actions/upload-artifact@v2
       with:
-        path: *.bz2
+        name: Tracy-Artifacts
+        path: |
+          tracy\Tracy.7z
+          *.bz2
 
