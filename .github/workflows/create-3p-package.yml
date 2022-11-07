@@ -20,11 +20,13 @@ jobs:
       with:
         repository: beqjanus/tracy
         path: tracy
+        fetch-depth: 0
     - name: debug dump tree
       run: tree ${{github.workspace}}\tracy
     - name: checkout the most recent tag
       run: |
         $tracy_version = & { Push-Location ${{github.workspace}}\tracy;git fetch --tags; git describe --tags --abbrev=0}
+        echo "Using Tracy version $tracy_version"
         # Checkout latest tag
         git checkout $tracy_version
     - name: Profiler GUI Release
