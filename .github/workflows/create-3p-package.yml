@@ -56,7 +56,7 @@ jobs:
         7z a Tracy.7z bin
     - uses: actions/upload-artifact@v2
       with:
-        path: Tracy.7z
+        path: tracy\Tracy.7z
     - name: install autobuild
       run: pip3 install git+https://github.com/Nicky-D/autobuild@main_nd
 
@@ -67,7 +67,12 @@ jobs:
       with:
         repository: FirestormViewer/fs-build-variables
         path: build-variables
-    - name: build
-      run: autobuild build --config-file=autobuild.xml
+    - name: package the 3p-archive
+      run: |
+        autobuild build --config-file=autobuild.xml
+        autobuild package --config-file=autobuild.xml
       shell: bash
+    - uses: actions/upload-artifact@v2
+      with:
+        path: *.bz2
 

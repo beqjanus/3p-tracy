@@ -24,6 +24,7 @@ fi
 
 top="$(pwd)"
 stage_dir="$(pwd)/stage"
+tracy_public="$(pwd)/tracy/public"
 mkdir -p "$stage_dir"
 tmp_dir="$(pwd)/tmp"
 mkdir -p "$tmp_dir"
@@ -40,27 +41,27 @@ cd ..
 
 echo "${tracy_version}.${build_id}" > "${stage_dir}/VERSION.txt"
 
-mkdir -p "${stage}/include/tracy"
+mkdir -p "${stage_dir}/include/tracy"
 
-cp tracy/*.hpp "${stage}/include/tracy/"
-cp tracy/*.h "${stage}/include/tracy/"
-cp tracy/*.cpp "${stage}/include/tracy/"
+# cp ${tracy_public}/*.hpp "${stage_dir}/include/tracy/"
+# cp ${tracy_public}/*.h "${stage_dir}/include/tracy/"
+cp ${tracy_public}/*.cpp "${stage_dir}/include/tracy/"
 
-mkdir -p "${stage}/include/tracy/common"
-cp tracy/common/*.hpp "${stage}/include/tracy/common"
-cp tracy/common/*.cpp "${stage}/include/tracy/common"
-cp tracy/common/*.h "${stage}/include/tracy/common"
+mkdir -p "${stage_dir}/include/tracy/common"
+cp ${tracy_public}/common/*.hpp "${stage_dir}/include/tracy/common"
+cp ${tracy_public}/common/*.cpp "${stage_dir}/include/tracy/common"
+cp ${tracy_public}/common/*.h "${stage_dir}/include/tracy/common"
 
-mkdir -p "${stage}/include/tracy/client"
-cp tracy/client/*.hpp "${stage}/include/tracy/client"
-cp tracy/client/*.cpp "${stage}/include/tracy/client"
-cp tracy/client/*.h "${stage}/include/tracy/client"
+mkdir -p "${stage_dir}/include/tracy/client"
+cp ${tracy_public}/client/*.hpp "${stage_dir}/include/tracy/client"
+cp ${tracy_public}/client/*.cpp "${stage_dir}/include/tracy/client"
+cp ${tracy_public}/client/*.h "${stage_dir}/include/tracy/client"
 
-mkdir -p "${stage}/include/tracy/libbacktrace"
-cp tracy/libbacktrace/*.hpp "${stage}/include/tracy/libbacktrace"
-cp tracy/libbacktrace/*.cpp "${stage}/include/tracy/libbacktrace"
-cp tracy/libbacktrace/*.h "${stage}/include/tracy/libbacktrace"
+mkdir -p "${stage_dir}/include/tracy/libbacktrace"
+cp ${tracy_public}/libbacktrace/*.hpp "${stage_dir}/include/tracy/libbacktrace"
+cp ${tracy_public}/libbacktrace/*.cpp "${stage_dir}/include/tracy/libbacktrace"
+cp ${tracy_public}/libbacktrace/*.h "${stage_dir}/include/tracy/libbacktrace"
 
 
-mkdir -p "${stage}/LICENSES"
-cp tracy/LICENSE "${stage}/LICENSES/Tracy.txt"
+mkdir -p "${stage_dir}/LICENSES"
+cp ${tracy_public}/../LICENSE "${stage_dir}/LICENSES/Tracy.txt"
