@@ -34,50 +34,33 @@ srcenv_file="$tmp_dir/ab_srcenv.sh"
 . "$srcenv_file"
 
 build_id=${AUTOBUILD_BUILD_ID:=0}
-tracy_version="$(sed -n -E 's/(v[0-9]+\.[0-9]+\.[0-9]+) \(.+\)/\1/p' tracy/NEWS | head -1)"
+cd tracy
+tracy_version="$(git describe --tags --abbrev=0)"
+cd ..
+
 echo "${tracy_version}.${build_id}" > "${stage_dir}/VERSION.txt"
 
-source_dir="tracy"
-pushd "$source_dir"
-    case "$AUTOBUILD_PLATFORM" in
-        windows*)
-            load_vsvars
+mkdir -p "${stage}/include/tracy"
 
-            cmake . -G "$AUTOBUILD_WIN_CMAKE_GEN" -DCMAKE_C_FLAGS="$LL_BUILD_RELEASE"
-            build_sln "tracy.sln" "Release|$AUTOBUILD_WIN_VSPLATFORM" "tracy"
+cp tracy/*.hpp "${stage}/include/tracy/"
+cp tracy/*.h "${stage}/include/tracy/"
+cp tracy/*.cpp "${stage}/include/tracy/"
 
-            mkdir -p "$stage_dir/lib/release"
-            mv Release/tracy.lib "$stage_dir/lib/release"
+mkdir -p "${stage}/include/tracy/common"
+cp tracy/common/*.hpp "${stage}/include/tracy/common"
+cp tracy/common/*.cpp "${stage}/include/tracy/common"
+cp tracy/common/*.h "${stage}/include/tracy/common"
 
-            mkdir -p "$stage_dir/include/tracy"
-            cp *.hpp "$stage_dir/include/tracy/"
+mkdir -p "${stage}/include/tracy/client"
+cp tracy/client/*.hpp "${stage}/include/tracy/client"
+cp tracy/client/*.cpp "${stage}/include/tracy/client"
+cp tracy/client/*.h "${stage}/include/tracy/client"
 
-            mkdir -p "$stage_dir/include/tracy/common"
-            cp common/*.hpp "$stage_dir/include/tracy/common"
-            cp common/*.h "$stage_dir/include/tracy/common"
+mkdir -p "${stage}/include/tracy/libbacktrace"
+cp tracy/libbacktrace/*.hpp "${stage}/include/tracy/libbacktrace"
+cp tracy/libbacktrace/*.cpp "${stage}/include/tracy/libbacktrace"
+cp tracy/libbacktrace/*.h "${stage}/include/tracy/libbacktrace"
 
-            mkdir -p "$stage_dir/include/tracy/client"
-            cp client/*.hpp "$stage_dir/include/tracy/client"
-            cp client/*.h "$stage_dir/include/tracy/client"
-        ;;
 
-        darwin*)
-			cmake . -DCMAKE_INSTALL_PREFIX:STRING="${stage_dir}"
-            make
-            make install
-
-            mkdir -p "$stage_dir/lib/release"
-            mv "$stage_dir/lib/libtracy.a" "$stage_dir/lib/release/libtracy.a"
-
-            mkdir -p "$stage_dir/include/tracy"
-            cp Tracy.hpp "$stage_dir/include/tracy/"
-			cp TracyOpenGL.hpp "$stage_dir/include/tracy/"
-
-            rm -r "$stage_dir/lib/cmake"
-        ;;
-    esac
-popd
-
-# copy license file
-mkdir -p "$stage_dir/LICENSES"
-cp tracy/LICENSE "$stage_dir/LICENSES/tracy_license.txt"
+mkdir -p "${stage}/LICENSES"
+cp tracy/LICENSE "${stage}/LICENSES/Tracy.txt"

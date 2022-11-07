@@ -1,0 +1,63 @@
+name: Build 3p package
+on: push
+env:
+  AUTOBUILD_VARIABLES_FILE: ${{github.workspace}}/build-variables/variables
+  EXTRA_ARGS: -DFMODSTUDIO=Off -DUSE_KDU=Off
+jobs:
+  steps:
+    runs-on: windows-2022
+    - name: Get the code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - uses: actions/checkout@v2
+    - uses: microsoft/setup-msbuild@v1.0.2
+    - name: Integrate vcpkg
+      run: vcpkg integrate install
+    - name: Profiler GUI Debug
+      run: msbuild tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Debug /property:Platform=x64
+    - name: Profiler GUI Release
+      run: msbuild tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Release /property:Platform=x64
+    - name: Update utility Debug
+      run: msbuild tracy\update\build\win32\update.vcxproj /property:Configuration=Debug /property:Platform=x64
+    - name: Update utility Release
+      run: msbuild tracy\update\build\win32\update.vcxproj /property:Configuration=Release /property:Platform=x64
+    - name: Capture utility Debug
+      run: msbuild tracy\capture\build\win32\capture.vcxproj /property:Configuration=Debug /property:Platform=x64
+    - name: Capture utility Release
+      run: msbuild tracy\capture\build\win32\capture.vcxproj /property:Configuration=Release /property:Platform=x64
+    - name: Csvexport utility Debug
+      run: msbuild tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Debug /property:Platform=x64
+    - name: Csvexport utility Release
+      run: msbuild tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Release /property:Platform=x64
+    - name: Import-chrome utility Debug
+      run: msbuild tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Debug /property:Platform=x64
+    - name: Import-chrome utility Release
+      run: msbuild tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Release /property:Platform=x64
+    - name: Library
+      run: msbuild tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
+    - name: Package binaries
+      run: |
+        mkdir bin
+        mkdir bin\dev
+        copy profiler\build\win32\x64\Release\Tracy.exe bin
+        copy update\build\win32\x64\Release\update.exe bin
+        copy capture\build\win32\x64\Release\capture.exe bin
+        copy import-chrome\build\win32\x64\Release\import-chrome.exe bin
+        copy csvexport\build\win32\x64\Release\csvexport.exe bin
+        copy library\win32\x64\Release\TracyProfiler.dll bin\dev
+        copy library\win32\x64\Release\TracyProfiler.lib bin\dev
+        7z a Tracy.7z bin
+    - uses: actions/upload-artifact@v2
+      with:
+        path: Tracy.7z
+    - name: install autobuild
+      run: pip3 install git+https://github.com/Nicky-D/autobuild@main_nd
+
+    - name: install llbase
+      run: pip3 install llbase
+    
+    - name: build
+      run: autobuild build --config-file=autobuild.xml
+      shell: bash
+
