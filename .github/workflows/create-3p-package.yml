@@ -60,7 +60,11 @@ jobs:
 
     - name: install llbase
       run: pip3 install llbase
-    
+    - name: Checkout build var
+        uses: actions/checkout@v3
+        with:
+          repository: FirestormViewer/fs-build-variables
+          path: build-variables
     - name: build
       run: autobuild build --config-file=autobuild.xml
       shell: bash
