@@ -11,25 +11,25 @@ jobs:
   build-tracy:
     runs-on: windows-2022
     steps:
+    - uses: actions/checkout@v2
+    - uses: microsoft/setup-msbuild@v1.0.2
+    - name: Integrate vcpkg
+      run: vcpkg integrate install
     - name: Get the repo
       uses: actions/checkout@v3
       with:
         repository: beqjanus/tracy
         path: tracy
-    - uses: actions/checkout@v2
-    - uses: microsoft/setup-msbuild@v1.0.2
-    - name: Integrate vcpkg
-      run: vcpkg integrate install
     - name: debug dump tree
-      run: tree ${{github.workspace}}\tracy\profiler
+      run: tree ${{github.workspace}}\tracy
     - name: checkout the most recent tag
       run: |
         # Get new tags from remote
         git fetch --tags
         # Get latest tag name
-        latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
+        tracy_version="$(git describe --tags --abbrev=0)"
         # Checkout latest tag
-        git checkout $latestTag
+        git checkout $tracy_version
     - name: Profiler GUI Release
       run: msbuild ${{github.workspace}}\tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Update utility Release
