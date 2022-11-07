@@ -24,10 +24,7 @@ jobs:
       run: tree ${{github.workspace}}\tracy
     - name: checkout the most recent tag
       run: |
-        # Get new tags from remote
-        git fetch --tags
-        # Get latest tag name
-        tracy_version="$(git describe --tags --abbrev=0)"
+        $tracy_version = & { Push-Location ${{github.workspace}}\tracy;git fetch --tags; git describe --tags --abbrev=0}
         # Checkout latest tag
         git checkout $tracy_version
     - name: Profiler GUI Release
