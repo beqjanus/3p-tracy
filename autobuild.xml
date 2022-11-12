@@ -4,15 +4,15 @@
     <key>package_description</key>
     <map>
       <key>canonical_repo</key>
-      <string>https://bitbucket.org/lindenlab/3p-tracy</string>
+      <string>https://github.com/beqjanus/3p-tracy</string>
       <key>copyright</key>
-      <string>Copyright (c) 2017-2021, Bartosz Taudul (wolf@nereid.pl)</string>
+      <string>Copyright (c) 2017-2022, Bartosz Taudul (wolf@nereid.pl)</string>
       <key>description</key>
       <string>Tracy Profiler Library</string>
       <key>license</key>
       <string>bsd</string>
       <key>license_file</key>
-      <string>LICENSES/tracy_license.txt</string>
+      <string>LICENSES/Tracy.txt</string>
       <key>name</key>
       <string>tracy</string>
       <key>platforms</key>
@@ -60,79 +60,16 @@
           </map>
           <key>manifest</key>
           <array>
-            <string>include/tracy/*.hpp</string>
             <string>include/tracy/common/*.hpp</string>
+            <string>include/tracy/common/*.cpp</string>
             <string>include/tracy/common/*.h</string>
             <string>include/tracy/client/*.hpp</string>
+            <string>include/tracy/client/*.cpp</string>
             <string>include/tracy/client/*.h</string>
+            <string>include/tracy/*.cpp</string>
           </array>
           <key>name</key>
           <string>common</string>
-        </map>
-        <key>linux</key>
-        <map>
-          <key>build_directory</key>
-          <string>stage</string>
-          <key>configurations</key>
-          <map>
-            <key>default</key>
-            <map>
-              <key>default</key>
-              <boolean>true</boolean>
-              <key>name</key>
-              <string>default</string>
-            </map>
-          </map>
-          <key>name</key>
-          <string>linux</string>
-        </map>
-        <key>windows</key>
-        <map>
-          <key>build_directory</key>
-          <string>stage</string>
-          <key>configurations</key>
-          <map>
-            <key>RelWithDebInfo</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>arguments</key>
-                <array>
-                  <string>-c</string>
-                  <string>../build-cmd.sh</string>
-                </array>
-                <key>command</key>
-                <string>bash</string>
-              </map>
-               <key>default</key>
-              <string>True</string>
-              <key>name</key>
-              <string>RelWithDebInfo</string>
-            </map>
-            <key>default</key>
-            <map>
-              <key>build</key>
-              <map>
-                <key>arguments</key>
-                <array>
-                  <string>-c</string>
-                  <string>../build-cmd.sh</string>
-                </array>
-                <key>command</key>
-                <string>bash</string>
-              </map>
-              <key>default</key>
-              <boolean>true</boolean>
-              <key>name</key>
-              <string>default</string>
-            </map>
-          </map>
-          <key>manifest</key>
-          <array>
-            <string>lib/release/tracy.lib</string>
-          </array>
-          <key>name</key>
-          <string>windows</string>
         </map>
       </map>
       <key>source</key>

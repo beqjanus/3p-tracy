@@ -11,38 +11,39 @@ jobs:
   build-tracy:
     runs-on: windows-2022
     steps:
-    - name: Get the code
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 1
     - uses: actions/checkout@v2
     - uses: microsoft/setup-msbuild@v1.0.2
     - name: Integrate vcpkg
       run: vcpkg integrate install
-    - name: Profiler GUI Debug
-      run: msbuild tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Debug /property:Platform=x64
+    - name: Get the repo
+      uses: actions/checkout@v3
+      with:
+        repository: beqjanus/tracy
+        path: tracy
+        fetch-depth: 0
+    - name: debug dump tree
+      run: tree ${{github.workspace}}\tracy
+    - name: checkout the most recent tag
+      run: |
+        $tracy_version = & { Push-Location ${{github.workspace}}\tracy;git fetch --tags; git describe --tags --abbrev=0}
+        echo "Using Tracy version $tracy_version"
+        # Checkout latest tag
+        git checkout $tracy_version
     - name: Profiler GUI Release
-      run: msbuild tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Release /property:Platform=x64
-    - name: Update utility Debug
-      run: msbuild tracy\update\build\win32\update.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\profiler\build\win32\Tracy.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Update utility Release
-      run: msbuild tracy\update\build\win32\update.vcxproj /property:Configuration=Release /property:Platform=x64
-    - name: Capture utility Debug
-      run: msbuild tracy\capture\build\win32\capture.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\update\build\win32\update.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Capture utility Release
-      run: msbuild tracy\capture\build\win32\capture.vcxproj /property:Configuration=Release /property:Platform=x64
-    - name: Csvexport utility Debug
-      run: msbuild tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\capture\build\win32\capture.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Csvexport utility Release
-      run: msbuild tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Release /property:Platform=x64
-    - name: Import-chrome utility Debug
-      run: msbuild tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Debug /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\csvexport\build\win32\csvexport.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Import-chrome utility Release
-      run: msbuild tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\import-chrome\build\win32\import-chrome.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Library
-      run: msbuild tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
+      run: msbuild ${{github.workspace}}\tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
     - name: Package binaries
       run: |
+        cd ${{github.workspace}}\tracy
         mkdir bin
         mkdir bin\dev
         copy profiler\build\win32\x64\Release\Tracy.exe bin
@@ -53,16 +54,25 @@ jobs:
         copy library\win32\x64\Release\TracyProfiler.dll bin\dev
         copy library\win32\x64\Release\TracyProfiler.lib bin\dev
         7z a Tracy.7z bin
-    - uses: actions/upload-artifact@v2
-      with:
-        path: Tracy.7z
     - name: install autobuild
       run: pip3 install git+https://github.com/Nicky-D/autobuild@main_nd
 
     - name: install llbase
       run: pip3 install llbase
-    
-    - name: build
-      run: autobuild build --config-file=autobuild.xml
+    - name: Checkout build var
+      uses: actions/checkout@v3
+      with:
+        repository: FirestormViewer/fs-build-variables
+        path: build-variables
+    - name: package the 3p-archive
+      run: |
+        autobuild build --config-file=autobuild.xml
+        autobuild package --config-file=autobuild.xml
       shell: bash
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Tracy-Artifacts
+        path: |
+          tracy\Tracy.7z
+          *.bz2
 
