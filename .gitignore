@@ -41,3 +41,11 @@ extra/tracy-build
 stage/
 
 tmp/
+
+bin/
+
+*.bz2
+
+*.7z
+
+tracy/
