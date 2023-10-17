@@ -48,4 +48,5 @@ bin/
 
 *.7z
 
-tracy/
+tracy*/
+tracy
