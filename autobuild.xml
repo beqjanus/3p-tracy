@@ -67,6 +67,7 @@
             <string>include/tracy/client/*.cpp</string>
             <string>include/tracy/client/*.h</string>
             <string>include/tracy/*.cpp</string>
+            <string>include/tracy/*.hpp</string>
           </array>
           <key>name</key>
           <string>common</string>
