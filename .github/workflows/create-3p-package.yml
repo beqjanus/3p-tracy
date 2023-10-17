@@ -18,7 +18,7 @@ jobs:
     - name: Get the repo
       uses: actions/checkout@v3
       with:
-        repository: beqjanus/tracy
+        repository: wolfpld/tracy
         path: tracy
         fetch-depth: 0
     - name: debug dump tree
