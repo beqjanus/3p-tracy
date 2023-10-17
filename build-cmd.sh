@@ -47,9 +47,9 @@ mkdir -p "${stage_dir}/include/tracy"
 # cp ${tracy_public}/*.h "${stage_dir}/include/tracy/"
 cp ${tracy_public}/*.cpp "${stage_dir}/include/tracy/"
 
-mkdir -p "${stage}/include/tracy/tracy"
-cp tracy/*.hpp "${stage}/include/tracy/tracy"
-cp tracy/*.h "${stage}/include/tracy/tracy"
+mkdir -p "${stage_dir}/include/tracy/tracy"
+cp tracy/*.hpp "${stage_dir}/include/tracy/tracy"
+cp tracy/*.h "${stage_dir}/include/tracy/tracy"
 
 mkdir -p "${stage_dir}/include/tracy/common"
 cp ${tracy_public}/common/*.hpp "${stage_dir}/include/tracy/common"
