@@ -36,7 +36,7 @@ jobs:
     - name: Install requirements (linux).
       if: startsWith( matrix.os, 'ubuntu')
       run: |
-        pacman -Syu --noconfirm && pacman -S --noconfirm --needed freetype2 tbb debuginfod wayland dbus libxkbcommon libglvnd meson cmake git wayland-protocols
+        sudo apt update && sudo apt upgrade -y && sudo apt install -y libfreetype6 libtbb2 libdebuginfod0 libwayland-server0 libdbus-1-3 libxkbcommon0 libglvnd0 meson cmake git libwayland-dev wayland-protocols
     - name: Get the repo
       uses: actions/checkout@v3
       with:
