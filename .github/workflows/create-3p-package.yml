@@ -52,7 +52,6 @@ jobs:
         echo "Using Tracy version $tracy_version"
         # Checkout latest tag
         git checkout $tracy_version
-      shell: bash
     - name: Profiler GUI
       working-directory: ${{github.workspace}}\tracy
       run: |
