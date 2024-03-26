@@ -54,42 +54,42 @@ jobs:
         # Checkout latest tag
         git checkout $tracy_version
     - name: Profiler GUI
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         cmake -B profiler/build -S profiler
         cmake --build profiler/build --config Release --parallel
     - name: Update utility
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         cmake -B update/build -S update
         cmake --build update/build --config Release --parallel
     - name: Capture utility
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         cmake -B capture/build -S capture
         cmake --build capture/build --config Release --parallel
     - name: Csvexport utility
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         cmake -B csvexport/build -S csvexport
         cmake --build csvexport/build --config Release --parallel
     - name: Import-chrome utility
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         cmake -B import-chrome/build -S import-chrome
         cmake --build import-chrome/build --config Release --parallel
     - name: Import-fuchsia utility
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         cmake -B import-fuchsia/build -S import-fuchsia
         cmake --build import-fuchsia/build --config Release --parallel
     - if: ${{ !startsWith(matrix.os, 'windows') }}
       name: Library
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: meson setup -Dprefix=$GITHUB_WORKSPACE/bin/lib build && meson compile -C build && meson install -C build        
     - if: ${{ startsWith(matrix.os, 'windows') }}
       name: Library (win)
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: msbuild ${{github.workspace}}\tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
     - if: ${{ startsWith(matrix.os, 'windows') }}
       name: Test application (linux only for now)
@@ -102,7 +102,7 @@ jobs:
         make           -C test -B ../public/TracyClient.o DEFINES='-DTRACY_DEMANGLE'
     - if: ${{ startsWith(matrix.os, 'windows') }}
       name: Package binaries (win)
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         mkdir bin
         mkdir bin\dev
@@ -116,7 +116,7 @@ jobs:
         7z a Tracy.7z bin
     - if: ${{ !startsWith(matrix.os, 'windows') }}
       name: Package binaries (mac,linux)
-      working-directory: ${{github.workspace}}\tracy
+      working-directory: ${{github.workspace}}/tracy
       run: |
         mkdir bin
         mkdir bin\dev
