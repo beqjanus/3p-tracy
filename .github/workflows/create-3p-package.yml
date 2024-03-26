@@ -47,6 +47,7 @@ jobs:
       if: startsWith( matrix.os, 'windows')
       run: tree /F ${{github.workspace}}\tracy
     - name: checkout the most recent tag
+      if: ${{ !contains(github.ref_name,'useCMake') }}
       run: |
         $tracy_version = & { Push-Location ${{github.workspace}}\tracy;git fetch --tags; git describe --tags --abbrev=0}
         echo "Using Tracy version $tracy_version"
