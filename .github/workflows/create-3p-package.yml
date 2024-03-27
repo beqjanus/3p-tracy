@@ -70,7 +70,7 @@ jobs:
         autobuild build --config-file=autobuild.xml
         autobuild package --config-file=autobuild.xml
       shell: bash
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: Tracy-Artifacts
         path: |
