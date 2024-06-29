@@ -58,10 +58,11 @@ jobs:
     - name: checkout the most recent tag
       if: ${{ !contains(github.ref_name,'useCMake') }}
       run: |
-        $tracy_version = & { Push-Location ${{github.workspace}}\tracy;git fetch --tags; git describe --tags --abbrev=0}
+        tracy_version=$(cd ${{github.workspace}}/tracy && git fetch --tags && git describe --tags --abbrev=0)
         echo "Using Tracy version $tracy_version"
         # Checkout latest tag
-        git checkout $tracy_version
+        cd ${{github.workspace}}/tracy && git checkout $tracy_version
+      shell: bash
     - name: Profiler GUI
       working-directory: ${{github.workspace}}/tracy
       run: |
