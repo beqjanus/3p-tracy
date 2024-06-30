@@ -123,7 +123,7 @@ jobs:
         copy csvexport\build\Release\tracy-csvexport.exe bin
         copy library\win32\x64\Release\TracyProfiler.dll bin\dev
         copy library\win32\x64\Release\TracyProfiler.lib bin\dev
-        7z a Tracy.7z bin
+        7z a Tracy-${{matrix.os}}.7z bin
     - if: ${{ !startsWith(matrix.os, 'windows') }}
       name: Package binaries (mac,linux)
       working-directory: ${{github.workspace}}/tracy
@@ -136,7 +136,7 @@ jobs:
         cp csvexport/build/tracy-csvexport bin
         cp import-chrome/build/tracy-import-chrome bin
         cp import-fuchsia/build/tracy-import-fuchsia bin
-        7z a Tracy.7z bin
+        7z a Tracy-${{matrix.os}}.7z bin
     - name: install autobuild
       run: pip3 install llbase autobuild llsd
     - name: Checkout build var
@@ -153,6 +153,6 @@ jobs:
       with:
         name: Tracy-Artifacts
         path: |
-          tracy\Tracy.7z
+          tracy\Tracy-${{matrix.os}}.7z
           *.bz2
 
