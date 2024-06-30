@@ -151,7 +151,7 @@ jobs:
       shell: bash
     - uses: actions/upload-artifact@v4
       with:
-        name: Tracy-Artifacts
+        name: Tracy-Artifacts-${{matrix.os}}
         path: |
           tracy\Tracy-${{matrix.os}}.7z
           *.bz2
