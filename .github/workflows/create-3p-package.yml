@@ -121,8 +121,8 @@ jobs:
         copy capture\build\Release\tracy-capture.exe bin
         copy import-chrome\build\Release\tracy-import-chrome.exe bin
         copy csvexport\build\Release\tracy-csvexport.exe bin
-        copy library\Release\TracyProfiler.dll bin\dev
-        copy library\Release\TracyProfiler.lib bin\dev
+        copy library\win32\x64\Release\TracyProfiler.dll bin\dev
+        copy library\win32\x64\Release\TracyProfiler.lib bin\dev
         7z a Tracy.7z bin
     - if: ${{ !startsWith(matrix.os, 'windows') }}
       name: Package binaries (mac,linux)
