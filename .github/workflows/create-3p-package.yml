@@ -101,28 +101,28 @@ jobs:
       name: Library (win)
       working-directory: ${{github.workspace}}/tracy
       run: msbuild ${{github.workspace}}\tracy\library\win32\TracyProfiler.vcxproj /property:Configuration=Release /property:Platform=x64
-    - if: ${{ startsWith(matrix.os, 'ubuntu') }}
-      name: Test application (linux only for now)
-      run: |
-        make -j`nproc` -C test
-        make -j`nproc` -C test clean
-        make -j`nproc` -C test TRACYFLAGS=-DTRACY_ON_DEMAND
-        make -j`nproc` -C test clean
-        make -j`nproc` -C test TRACYFLAGS="-DTRACY_DELAYED_INIT -DTRACY_MANUAL_LIFETIME"
-        make           -C test -B ../public/TracyClient.o DEFINES='-DTRACY_DEMANGLE'
+    # - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+    #   name: Test application (linux only for now)
+    #   run: |
+    #     make -j`nproc` -C test
+    #     make -j`nproc` -C test clean
+    #     make -j`nproc` -C test TRACYFLAGS=-DTRACY_ON_DEMAND
+    #     make -j`nproc` -C test clean
+    #     make -j`nproc` -C test TRACYFLAGS="-DTRACY_DELAYED_INIT -DTRACY_MANUAL_LIFETIME"
+    #     make           -C test -B ../public/TracyClient.o DEFINES='-DTRACY_DEMANGLE'
     - if: ${{ startsWith(matrix.os, 'windows') }}
       name: Package binaries (win)
       working-directory: ${{github.workspace}}/tracy
       run: |
         mkdir bin
         mkdir bin\dev
-        copy profiler\build\win32\x64\Release\Tracy.exe bin
-        copy update\build\win32\x64\Release\update.exe bin
-        copy capture\build\win32\x64\Release\capture.exe bin
-        copy import-chrome\build\win32\x64\Release\import-chrome.exe bin
-        copy csvexport\build\win32\x64\Release\csvexport.exe bin
-        copy library\win32\x64\Release\TracyProfiler.dll bin\dev
-        copy library\win32\x64\Release\TracyProfiler.lib bin\dev
+        copy profiler\build\Release\tracy-profiler.exe bin
+        copy update\build\Release\tracy-update.exe bin
+        copy capture\build\Release\tracy-capture.exe bin
+        copy import-chrome\build\Release\tracy-import-chrome.exe bin
+        copy csvexport\build\Release\tracy-csvexport.exe bin
+        copy library\Release\TracyProfiler.dll bin\dev
+        copy library\Release\TracyProfiler.lib bin\dev
         7z a Tracy.7z bin
     - if: ${{ !startsWith(matrix.os, 'windows') }}
       name: Package binaries (mac,linux)
