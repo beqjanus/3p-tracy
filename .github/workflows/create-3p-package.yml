@@ -111,6 +111,14 @@ jobs:
     #     make -j`nproc` -C test TRACYFLAGS="-DTRACY_DELAYED_INIT -DTRACY_MANUAL_LIFETIME"
     #     make           -C test -B ../public/TracyClient.o DEFINES='-DTRACY_DEMANGLE'
     - if: ${{ startsWith(matrix.os, 'windows') }}
+      name: Install zip (win)
+      run: choco install zip -y
+      shell: powershell
+    - if: ${{ !startsWith(matrix.os, 'windows') }}
+      name: Install zip (mac,linux)
+      run: sudo apt-get install -y zip || brew install zip
+      shell: bash    
+    - if: ${{ startsWith(matrix.os, 'windows') }}
       name: Package binaries (win)
       working-directory: ${{github.workspace}}/tracy
       run: |
