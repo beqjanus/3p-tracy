@@ -163,6 +163,5 @@ jobs:
       with:
         name: Tracy-Artifacts-${{matrix.os}}
         path: |
-          tracy\Tracy-${{matrix.os}}.zip
+          tracy/Tracy-${{matrix.os}}.zip
           *.bz2
-
