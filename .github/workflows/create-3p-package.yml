@@ -115,21 +115,22 @@ jobs:
       working-directory: ${{github.workspace}}/tracy
       run: |
         mkdir bin
-        mkdir bin\dev
-        copy profiler\build\Release\tracy-profiler.exe bin
-        copy update\build\Release\tracy-update.exe bin
-        copy capture\build\Release\tracy-capture.exe bin
-        copy import-chrome\build\Release\tracy-import-chrome.exe bin
-        copy csvexport\build\Release\tracy-csvexport.exe bin
-        copy library\win32\x64\Release\TracyProfiler.dll bin\dev
-        copy library\win32\x64\Release\TracyProfiler.lib bin\dev
+        mkdir bin/dev
+        cp profiler/build/Release/tracy-profiler.exe bin
+        cp update/build/Release/tracy-update.exe bin
+        cp capture/build/Release/tracy-capture.exe bin
+        cp import-chrome/build/Release/tracy-import-chrome.exe bin
+        cp csvexport/build/Release/tracy-csvexport.exe bin
+        cp library/win32/x64/Release/TracyProfiler.dll bin/dev
+        cp library/win32/x64/Release/TracyProfiler.lib bin/dev
         zip -r Tracy-${{matrix.os}}.zip bin
+      shell: bash
     - if: ${{ !startsWith(matrix.os, 'windows') }}
       name: Package binaries (mac,linux)
       working-directory: ${{github.workspace}}/tracy
       run: |
         mkdir bin
-        mkdir bin\dev
+        mkdir bin/dev
         cp profiler/build/tracy-profiler bin
         cp update/build/tracy-update bin
         cp capture/build/tracy-capture bin
@@ -137,6 +138,7 @@ jobs:
         cp import-chrome/build/tracy-import-chrome bin
         cp import-fuchsia/build/tracy-import-fuchsia bin
         zip -r Tracy-${{matrix.os}}.zip bin
+      shell: bash
     - name: install autobuild
       run: pip3 install llbase autobuild llsd
     - name: Checkout build var
