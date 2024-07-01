@@ -70,6 +70,8 @@
             <string>include/tracy/tracy/*.hpp</string>
             <string>include/tracy/tracy/*.h</string>
             <string>include/tracy/libbacktrace/*.hpp</string>
+            <string>include/tracy/libbacktrace/*.cpp</string>
+            <string>include/tracy/libbacktrace/*.c</string>
             <string>include/tracy/libbacktrace/*.h</string>
           </array>
           <key>name</key>
