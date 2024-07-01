@@ -69,6 +69,8 @@
             <string>include/tracy/*.cpp</string>
             <string>include/tracy/tracy/*.hpp</string>
             <string>include/tracy/tracy/*.h</string>
+            <string>include/tracy/libbacktrace/*.hpp</string>
+            <string>include/tracy/libbacktrace/*.h</string>
           </array>
           <key>name</key>
           <string>common</string>
