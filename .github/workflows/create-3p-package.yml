@@ -15,7 +15,7 @@ jobs:
         os: [macos-12,ubuntu-24.04,windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - if: startsWith( matrix.os, 'windows')
       uses: microsoft/setup-msbuild@v2
     - uses: actions/setup-python@v5
@@ -39,7 +39,7 @@ jobs:
         # sudo add-apt-repository ppa:oibaf/graphics-drivers
         sudo apt update && sudo apt upgrade -y && sudo apt install -y libfreetype6 libtbbmalloc2 elfutils libwayland-dev libdbus-1-dev libxkbcommon-dev libglvnd-dev meson cmake git wayland-protocols nodejs
     - name: Get the repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: wolfpld/tracy
         path: tracy
@@ -150,7 +150,7 @@ jobs:
     - name: install autobuild
       run: pip3 install llbase autobuild llsd
     - name: Checkout build var
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: FirestormViewer/fs-build-variables
         path: build-variables
