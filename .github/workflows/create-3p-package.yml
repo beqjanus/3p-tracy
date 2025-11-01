@@ -159,7 +159,7 @@ jobs:
         autobuild build --config-file=autobuild.xml
         autobuild package --config-file=autobuild.xml
       shell: bash
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       with:
         name: Tracy-Artifacts-${{matrix.os}}
         path: |
